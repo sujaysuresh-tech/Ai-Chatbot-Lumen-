@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.GEMINI_API_KEY;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-  
+
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -23,13 +23,24 @@ export default async function handler(req, res) {
 
     if (!response.ok) {
       console.error("Gemini API error:", data);
-      return res.status(response.status).json({ error: data?.error?.message || "Upstream error" });
+
+      // Handle rate limit / quota errors with a friendly message
+      if (response.status === 429) {
+        return res.status(429).json({
+          error: "Lumen has reached its message limit for the moment. Please check back after a while."
+        });
+      }
+
+      // Generic fallback for any other upstream error
+      return res.status(response.status).json({
+        error: "Something went wrong on our end. Please try again shortly."
+      });
     }
 
     const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry I couldn't get that.";
     return res.status(200).json({ reply });
   } catch (err) {
     console.error("Fetch failed:", err);
-    return res.status(500).json({ error: "Something went wrong" });
+    return res.status(500).json({ error: "Something went wrong. Please try again." });
   }
 }
