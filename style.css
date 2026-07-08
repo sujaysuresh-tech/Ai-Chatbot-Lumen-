@@ -59,6 +59,7 @@ body{
     justify-content: center;
     align-items: flex-start;
     position: relative;
+    height: 100dvh;
 }
 
 /* ---- Animated background ---- */
@@ -119,8 +120,8 @@ body{
     z-index: 1;
     width: 100%;
     max-width: 760px;
-    height: 96vh;
-    margin-top: 2vh;
+    height: 96dvh;
+    margin-top: 2dvh;
     background: #131317cc;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -147,6 +148,7 @@ header{
     justify-content: center;
     border-bottom: 1px solid var(--border-subtle);
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .header-text{
@@ -210,10 +212,12 @@ header h1{
 .chat-box{
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     padding: var(--spacing-20);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-12);
+    min-height: 0;
 }
 
 .chat-box::-webkit-scrollbar{
@@ -360,6 +364,7 @@ header h1{
     padding: var(--spacing-16) var(--spacing-20);
     gap: var(--spacing-10);
     border-top: 1px solid var(--border-subtle);
+    flex-shrink: 0;
 }
 
 #user-input{
@@ -370,7 +375,7 @@ header h1{
     color: var(--text-primary);
     outline: none;
     border-radius: var(--radius-pill);
-    font-size: 14.5px;
+    font-size: 16px;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -461,11 +466,15 @@ header h1{
 }
 
 @media (max-width: 768px) {
+    body{
+        align-items: stretch;
+    }
+
     .chat-container{
         max-width: 100%;
         border-radius: 0;
         margin-top: 0;
-        height: 100vh;
+        height: 100dvh;
     }
 
     .chip{
