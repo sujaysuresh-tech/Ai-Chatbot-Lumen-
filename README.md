@@ -1,127 +1,120 @@
 <div align="center">
 
-# ✨ Lumen
+# ✨ Lumen 🤖
 
-### Your Conversational AI Assistant
+### 💬 Your Conversational AI Assistant
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-6D28D9?style=for-the-badge&logo=vercel&logoColor=white)](https://ai-chatbot-lumen.vercel.app/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES%20Modules-7C3AED?style=flat-square&logo=javascript&logoColor=white)](#)
+[![Live Demo](https://img.shields.io/badge/🔴_Live_Demo-Visit-6D28D9?style=for-the-badge&logo=vercel&logoColor=white)](https://ai-chatbot-lumen.vercel.app/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla%20JS-7C3AED?style=flat-square&logo=javascript&logoColor=white)](#)
 [![Gemini API](https://img.shields.io/badge/Gemini-2.5%20Flash-8B5CF6?style=flat-square&logo=googlegemini&logoColor=white)](#)
-[![License](https://img.shields.io/badge/License-MIT-A78BFA?style=flat-square)](#license)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-A78BFA?style=flat-square&logo=vercel&logoColor=white)](#)
+[![License](https://img.shields.io/badge/License-MIT-6D28D9?style=flat-square)](#-license)
 
-[Overview](#overview) • [Features](#features) • [Tech Stack](#tech-stack) • [Architecture](#architecture) • [Installation](#installation) • [Usage](#usage) • [Roadmap](#roadmap)
+[Overview](#-overview) • [Features](#-features) • [Tech Stack](#️-tech-stack) • [Architecture](#-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Roadmap](#-roadmap)
 
 </div>
 
 ---
 
-## Overview
+## 🌟 Overview
 
-**Lumen** is a lightweight, framework-free AI chatbot built entirely with vanilla JavaScript. It integrates directly with the **Gemini 2.5 Flash API** to deliver fast, conversational responses through a clean, dark-mode glassmorphism interface — no React, no Vue, no build-heavy frontend framework required.
+**Lumen** is a lightweight, framework-free AI chatbot built entirely with vanilla JavaScript. It talks directly to the **Gemini 2.5 Flash API** 🤖 to deliver fast, conversational responses through a clean, dark-mode glassmorphism interface — no React, no Vue, no build-heavy frontend framework required. 🚫📦
 
-The project explores how far a dependency-light frontend can go when paired with a modern LLM API, using a modular ES module architecture to keep UI rendering, API communication, and conversation state cleanly separated.
+The project explores how far a dependency-light frontend can go when paired with a modern LLM API — keeping the UI, styling, and API logic simple, fast, and easy to reason about. ⚡
 
-**Live demo:** [ai-chatbot-lumen.vercel.app](https://ai-chatbot-lumen.vercel.app/)
-
----
-
-## Features
-
-- **Conversational AI chat** powered by the Gemini 2.5 Flash API
-- **Modular ES module architecture** — separate modules for API handling, UI rendering, and state management
-- **Dark mode glassmorphism UI** — clean, modern flat aesthetic with translucent surfaces
-- **Zero-framework frontend** — built with plain HTML, CSS, and JavaScript for minimal load times
-- **Deployed on Vercel** for fast, global access
+🔗 **Live demo:** [ai-chatbot-lumen.vercel.app](https://ai-chatbot-lumen.vercel.app/)
 
 ---
 
-## Tech Stack
+## 🚀 Features
+
+- 💬 **Conversational AI chat** powered by the Gemini 2.5 Flash API
+- 🌑 **Dark mode glassmorphism UI** — clean, modern flat aesthetic with translucent surfaces
+- ⚡ **Zero-framework frontend** — built with plain HTML, CSS, and JavaScript for minimal load times
+- 🔐 **Server-side API handling** — Gemini requests are routed through a serverless function to keep the API key off the client
+- ☁️ **Deployed on Vercel** for fast, global access
+
+---
+
+## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | HTML, CSS, Vanilla JavaScript (ES Modules) |
-| AI Model | Gemini 2.5 Flash API |
-| Styling | Custom CSS — dark mode glassmorphism |
-| Deployment | Vercel |
+| 🎨 Frontend | HTML, CSS, Vanilla JavaScript |
+| 🤖 AI Model | Gemini 2.5 Flash API |
+| ⚙️ Backend | Vercel Serverless Function (`/api`) |
+| 💅 Styling | Custom CSS — dark mode glassmorphism |
+| ☁️ Deployment | Vercel |
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 ```
-lumen/
-├── index.html              # App shell / entry point
-├── styles/
-│   └── main.css              # Glassmorphism dark-mode styling
-├── src/
-│   ├── main.js                # App entry — wires modules together
-│   ├── api/
-│   │   └── gemini.js            # Gemini 2.5 Flash API integration
-│   ├── ui/
-│   │   └── chatRenderer.js      # Renders messages to the DOM
-│   └── state/
-│       └── conversation.js      # Conversation/history state management
-└── README.md
+Ai-Chatbot-Lumen-/
+├── 📁 api/                 # Vercel serverless function(s) — proxies requests to the Gemini API
+├── 📄 index.html            # App shell & chat UI markup
+├── 📜 script.js              # Chat logic — handles input, rendering, and API calls
+├── 🎨 style.css               # Dark mode glassmorphism styling
+├── 🙈 .gitignore
+└── 📘 README.md
 ```
 
-The app follows a simple unidirectional flow: user input → conversation state update → Gemini API call → response rendered back into the chat UI. Each concern (API, UI, state) lives in its own module, keeping the codebase easy to extend.
+**Flow:** 🧑 user types a message → `script.js` sends it to the `/api` serverless function → the function calls the **Gemini 2.5 Flash API** 🤖 → the response streams back and is rendered in the chat window. Keeping the Gemini API key inside `/api` (rather than in client-side JS) means it's never exposed in the browser. 🔒
 
 ---
 
-## Installation
+## 📦 Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/sujaysuresh-tech/lumen.git
-cd lumen
+git clone https://github.com/sujaysuresh-tech/Ai-Chatbot-Lumen-.git
+cd Ai-Chatbot-Lumen-
 ```
 
-Since Lumen is a vanilla JS project with no build step, you can serve it with any static server:
+Since Lumen uses a Vercel serverless function for the API layer, the easiest way to run it locally is with the Vercel CLI: 🖥️
 
 ```bash
-# Using Python
-python -m http.server 5500
-
-# Or using Node's live-server
-npx live-server
+npm install -g vercel
+vercel dev
 ```
 
 ---
 
-## Configuration
+## 🔑 Configuration
 
-Lumen requires a Gemini API key to function.
+Lumen needs a Gemini API key to talk to the model.
 
-Add it to your environment/config (e.g. a `.env` file or a config module, depending on how the project is set up):
+1. Grab a key from [Google AI Studio](https://aistudio.google.com/) 🔑
+2. Add it as an environment variable (locally in a `.env` file, or in your Vercel project settings for deployment):
 
-```js
-// src/api/config.js
-export const GEMINI_API_KEY = "your-api-key-here";
+```bash
+GEMINI_API_KEY=your-api-key-here
 ```
 
-> ⚠️ Never commit your API key to a public repository. Use environment variables or a `.gitignore`-protected config file in production.
+> ⚠️ Never commit your API key to a public repository — that's exactly why it lives in the serverless function's environment variables instead of client-side code. 🙅‍♂️
 
 ---
 
-## Usage
+## 💡 Usage
 
-1. Open the app locally, or try the **[live demo](https://ai-chatbot-lumen.vercel.app/)**.
-2. Type a message into the chat input.
-3. Lumen sends your message to the Gemini 2.5 Flash API and renders the response in the chat window.
-
----
-
-## Roadmap
-
-- [ ] Streaming responses (token-by-token rendering)
-- [ ] Persistent chat history (local storage or backend-backed)
-- [ ] Multi-conversation / chat session support
-- [ ] Markdown and code-block rendering in responses
-- [ ] Light mode toggle
+1. Open the app locally, or try the **[live demo](https://ai-chatbot-lumen.vercel.app/)** 🔴
+2. Type a message into the chat input ⌨️
+3. Lumen sends it to Gemini 2.5 Flash via the `/api` route and renders the response in the chat window ✨
 
 ---
 
-## License
+## 🗺️ Roadmap
+
+- [ ] 📡 Streaming responses (token-by-token rendering)
+- [ ] 💾 Persistent chat history
+- [ ] 🗂️ Multi-conversation / chat session support
+- [ ] 📝 Markdown and code-block rendering in responses
+- [ ] ☀️ Light mode toggle
+
+---
+
+## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
@@ -129,6 +122,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 <div align="center">
 
-Built by [Sujay Suresh](https://github.com/sujaysuresh-tech) · [Live Demo](https://ai-chatbot-lumen.vercel.app/)
+Built with 💜 by [Sujay Suresh](https://github.com/sujaysuresh-tech) · 🔗 [Live Demo](https://ai-chatbot-lumen.vercel.app/) · 📦 [Repository](https://github.com/sujaysuresh-tech/Ai-Chatbot-Lumen-)
 
 </div>
