@@ -4,10 +4,7 @@
 
 ### 💬 Your Conversational AI Assistant
 
-[![Live Demo](https://img.shields.io/badge/🔴_Live_Demo-Visit-6D28D9?style=for-the-badge&logo=vercel&logoColor=white)](https://ai-chatbot-lumen.vercel.app/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla%20JS-7C3AED?style=flat-square&logo=javascript&logoColor=white)](#)
-[![Gemini API](https://img.shields.io/badge/Gemini-2.5%20Flash-8B5CF6?style=flat-square&logo=googlegemini&logoColor=white)](#)
-[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-A78BFA?style=flat-square&logo=vercel&logoColor=white)](#)
+<img src="https://skillicons.dev/icons?i=html,css,js,vercel&theme=dark" />
 
 [Overview](#-overview) • [Features](#-features) • [Tech Stack](#️-tech-stack) • [Architecture](#-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Roadmap](#-roadmap)
 
