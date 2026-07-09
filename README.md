@@ -8,7 +8,6 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla%20JS-7C3AED?style=flat-square&logo=javascript&logoColor=white)](#)
 [![Gemini API](https://img.shields.io/badge/Gemini-2.5%20Flash-8B5CF6?style=flat-square&logo=googlegemini&logoColor=white)](#)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-A78BFA?style=flat-square&logo=vercel&logoColor=white)](#)
-[![License](https://img.shields.io/badge/License-MIT-6D28D9?style=flat-square)](#-license)
 
 [Overview](#-overview) • [Features](#-features) • [Tech Stack](#️-tech-stack) • [Architecture](#-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Roadmap](#-roadmap)
 
@@ -22,7 +21,7 @@
 
 The project explores how far a dependency-light frontend can go when paired with a modern LLM API — keeping the UI, styling, and API logic simple, fast, and easy to reason about. ⚡
 
-🔗 **Live demo:** [ai-chatbot-lumen.vercel.app](https://ai-chatbot-lumen.vercel.app/)
+🔗 **Live demo:** [Live Demo](https://ai-chatbot-lumen.vercel.app/)
 
 ---
 
@@ -85,8 +84,7 @@ vercel dev
 
 Lumen needs a Gemini API key to talk to the model.
 
-1. Grab a key from [Google AI Studio](https://aistudio.google.com/) 🔑
-2. Add it as an environment variable (locally in a `.env` file, or in your Vercel project settings for deployment):
+Add it as an environment variable (locally in a `.env` file, or in your Vercel project settings for deployment):
 
 ```bash
 GEMINI_API_KEY=your-api-key-here
@@ -114,14 +112,9 @@ GEMINI_API_KEY=your-api-key-here
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
 
 <div align="center">
 
-Built with 💜 by [Sujay Suresh](https://github.com/sujaysuresh-tech) · 🔗 [Live Demo](https://ai-chatbot-lumen.vercel.app/) · 📦 [Repository](https://github.com/sujaysuresh-tech/Ai-Chatbot-Lumen-)
+Built by [Sujay Suresh](https://github.com/sujaysuresh-tech) · 🔗 [Live Demo](https://ai-chatbot-lumen.vercel.app/) · 📦 [Repository](https://github.com/sujaysuresh-tech/Ai-Chatbot-Lumen-)
 
 </div>
