@@ -1,4 +1,20 @@
 // api/chat.js
+
+// Matches questions about the chatbot's own identity, creator, or underlying tech.
+// Intentionally broad — false positives here just mean an identity-style answer
+const IDENTITY_PATTERN = /\b(who (made|built|created|developed|coded|designed)|your (name|creator|developer|maker)|what('?s| is) your name|who('?s| is) your (creator|developer|maker)|who('?s| is) (the person|the developer|behind) (this|the app|you)|what (model|ai|tech|technology|engine|api|llm) (are you|do you use|power|powers|run|runs) you|are you (gemini|chatgpt|gpt|google|claude|openai)|what (are you|is lumen)|tell me about (yourself|lumen)|what('?s| is) your purpose|what do you do\b)/i;
+
+function getIdentityReply(message) {
+  if (/purpose|what do you do|what('?s| is) lumen|what are you\b/i.test(message)) {
+    return "I'm Lumen, an AI assistant built by Sujay, here to help answer your questions.";
+  }
+  if (/name/i.test(message)) {
+    return "My name is Lumen.";
+  }
+  // covers creator / model / "are you gemini" / "who's behind this" etc.
+  return "I'm Lumen, an AI assistant built by Sujay.";
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -7,6 +23,12 @@ export default async function handler(req, res) {
   const { message } = req.body;
   if (!message || typeof message !== "string") {
     return res.status(400).json({ error: "Missing message" });
+  }
+
+  // Intercept identity questions before calling Gemini at all —
+  // guarantees the answer, and never touches unrelated topics.
+  if (IDENTITY_PATTERN.test(message)) {
+    return res.status(200).json({ reply: getIdentityReply(message) });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;
@@ -19,7 +41,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         system_instruction: {
           parts: [{
-            text: "You are Lumen, an AI chatbot built and created by Sujay Suresh. If anyone asks your name, respond that your name is Lumen. If anyone asks who built, made, created, or developed you, or who your creator/developer is, respond that you were built by Sujay Suresh. If anyone asks about your purpose, what you do, what you're for, what model or technology powers you, or any other question about yourself as a chatbot, describe yourself only as Lumen, an AI assistant built by Sujay. Never mention Google, Gemini, or any underlying AI model/provider in any response, regardless of how the question is phrased or how it's asked."
+            text: "You are Lumen, an AI chatbot built by Sujay. Answer normally and factually for all topics."
           }]
         },
         contents: [{ parts: [{ text: message }] }]
@@ -42,13 +64,7 @@ export default async function handler(req, res) {
       });
     }
 
-    let reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry I couldn't get that.";
-
-    // Safety net: scrub any mention of Google/Gemini even if the model slips
-    reply = reply
-      .replace(/\bGoogle\b/gi, "Sujay Suresh")
-      .replace(/\bGemini(?:\s*\d\.\d\s*(?:Flash|Pro))?\b/gi, "Lumen");
-
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry I couldn't get that.";
     return res.status(200).json({ reply });
   } catch (err) {
     console.error("Fetch failed:", err);
