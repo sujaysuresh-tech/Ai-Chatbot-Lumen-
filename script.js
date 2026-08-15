@@ -12,9 +12,34 @@ function updateEmptyState() {
     }
 }
 
+// The full conversation for THIS browser tab/user only. sessionStorage is
+// scoped per-tab, so different visitors (or different tabs) never see or
+// touch each other's history — there's no server-side storage at all.
+let conversation = [];
+
+function loadConversation() {
+    try {
+        const saved = sessionStorage.getItem("lumenConversation");
+        conversation = saved ? JSON.parse(saved) : [];
+    } catch (e) {
+        conversation = [];
+    }
+}
+
+function saveConversation() {
+    sessionStorage.setItem("lumenConversation", JSON.stringify(conversation));
+}
+
+function renderConversation() {
+    chatBox.innerHTML = "";
+    conversation.forEach(turn => {
+        addMessage(turn.text, turn.role === "user" ? "user-message" : "bot-message", turn.role === "model");
+    });
+}
+
 window.onload = () => {
-    const savedChat = sessionStorage.getItem("chatHistory");
-    if (savedChat) chatBox.innerHTML = savedChat;
+    loadConversation();
+    renderConversation();
     chatBox.scrollTop = chatBox.scrollHeight;
     updateEmptyState();
 }
@@ -72,12 +97,12 @@ function showTyping() {
     return typingDiv;
 }
 
-async function getBotReplay(userMessage) {
+async function getBotReplay(userMessage, history) {
     try {
         const response = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: userMessage })
+            body: JSON.stringify({ message: userMessage, history })
         });
 
         const data = await response.json();
@@ -102,11 +127,17 @@ async function sendMessage(text) {
     userInput.value = "";
     const typingDiv = showTyping();
 
-    const botReplay = await getBotReplay(message);
+    // Send everything said so far in THIS conversation as context.
+    const historyForRequest = conversation.map(turn => ({ role: turn.role, text: turn.text }));
+    const botReplay = await getBotReplay(message, historyForRequest);
     typingDiv.remove();
     addMessage(botReplay, "bot-message", true);
 
-    sessionStorage.setItem("chatHistory", chatBox.innerHTML);
+    // Persist both turns so the next message keeps the thread, and so a
+    // page reload restores this tab's conversation (still per-user only).
+    conversation.push({ role: "user", text: message });
+    conversation.push({ role: "model", text: botReplay });
+    saveConversation();
 }
 
 sendBtn.onclick = () => sendMessage(userInput.value);
