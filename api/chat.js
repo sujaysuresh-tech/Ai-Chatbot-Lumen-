@@ -15,12 +15,40 @@ function getIdentityReply(message) {
   return "I'm Lumen, an AI assistant built by Sujay.";
 }
 
+// Keep the history each request is allowed to carry bounded, so a single
+// runaway client can't blow up token usage or payload size.
+const MAX_HISTORY_TURNS = 20; // ~10 user/model exchanges
+
+// IMPORTANT: This function must stay stateless. Never store per-user data
+// (conversation history, sessions, etc.) in module-level / global variables
+// here — Vercel can reuse the same warm serverless instance to serve
+// different users' concurrent requests, and anything kept in module scope
+// would leak from one user's chat into another's. All conversation state
+// lives on the client (sessionStorage) and is sent in full with every
+// request instead.
+function sanitizeHistory(history) {
+  if (!Array.isArray(history)) return [];
+  return history
+    .filter(
+      (turn) =>
+        turn &&
+        (turn.role === "user" || turn.role === "model") &&
+        typeof turn.text === "string" &&
+        turn.text.trim().length > 0
+    )
+    .slice(-MAX_HISTORY_TURNS)
+    .map((turn) => ({
+      role: turn.role,
+      parts: [{ text: turn.text.slice(0, 8000) }], // guard against giant payloads
+    }));
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { message } = req.body;
+  const { message, history } = req.body;
   if (!message || typeof message !== "string") {
     return res.status(400).json({ error: "Missing message" });
   }
@@ -34,6 +62,13 @@ export default async function handler(req, res) {
   const apiKey = process.env.GEMINI_API_KEY;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
+  // This request's own conversation, built fresh from what the client sent
+  // us plus the new message. Nothing here is shared across requests.
+  const contents = [
+    ...sanitizeHistory(history),
+    { role: "user", parts: [{ text: message }] },
+  ];
+
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -41,10 +76,10 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         system_instruction: {
           parts: [{
-            text: "You are Lumen, an AI chatbot built by Sujay. Answer normally and factually for all topics."
+            text: "You are Lumen, an AI chatbot built by Sujay. Answer normally and factually for all topics. Use the prior conversation turns for context."
           }]
         },
-        contents: [{ parts: [{ text: message }] }]
+        contents
       }),
     });
 
