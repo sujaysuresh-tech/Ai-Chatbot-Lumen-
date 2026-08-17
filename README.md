@@ -112,6 +112,6 @@ GEMINI_API_KEY=your-api-key-here
 
 <div align="center">
 
-Built by [Sujay Suresh](https://github.com/sujaysuresh-tech) · 🔗 [Live Demo](https://ai-chatbot-lumen.vercel.app/) · 📦 [Repository](https://github.com/sujaysuresh-tech/Ai-Chatbot-Lumen-)
+Built by [Sujay Suresh](https://github.com/sujaysuresh-tech) · 🔗 [Live Demo](https://ai-chatbot-lumen.vercel.app/) 
 
 </div>
